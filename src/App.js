@@ -16,45 +16,67 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      todos: [
-        {
-          id: 1,
-          title: "Buy suger",
-          status: true,
-        },
-        {
-          id: 2,
-          title: "Buy salt 1kg"
-        },
-        {
-          id: 3,
-          title: "Buy apple",
-          status: true,
-        }
-      ],
+      todos: [],
     }
     this.handleCreateTodo = this.handleCreateTodo.bind(this);
     this.onDelete = this.onDelete.bind(this);
+    this.onCheck = this.onCheck.bind(this);
+    this.onEdit = this.onEdit.bind(this);
   }
-  
+
+  componentDidMount() {
+    const localData = JSON.parse(localStorage.getItem("todos")) || [];
+    this.setState({todos: localData});
+  }
+
+  componentDidUpdate() {
+    localStorage.setItem("todos", JSON.stringify(this.state.todos) )
+  }
+
+  componentWillUnmount() {
+    console.log("will unmount") // 4
+  }
+
   handleCreateTodo(str) {
     this.setState({ todos: [ ...this.state.todos, {id: Math.random(), title: str} ] })
   }
-  onDelete(id) { // 1
+  onDelete(id) {
     const newTodos = this.state.todos.filter((item) => item.id !== id);
     this.setState({todos: newTodos})
   }
 
+  onCheck(id) {
+    const newArr = this.state.todos.map((todo) => {
+      if(todo.id === id) {
+        return {...todo, status: !todo.status}
+      }
+      return todo;
+    })
+    this.setState({todos: newArr})
+  }
+  onEdit(id, newText)  {
+    const newArr = this.state.todos.map((todo) => {
+      if(todo.id === id) {
+        return {...todo, title: newText}
+      }
+      return todo
+    });
+    this.setState({ todos: newArr })
+  }
+
+
   render() {
-    console.log(this.state.todos);
+    console.log(this.state.todos)
     return (
       <div className="App">
-        <Header count={this.state.todos.length} />
+        <Header count={this.state.todos.length} done={this.state.todos.filter((todo) => todo.status).length} />
         <main className='main'>
           <CreateTodo onCreate={this.handleCreateTodo} />
           <TodoLists 
             todos={this.state.todos}
             onDelete={this.onDelete}
+            onCheck={this.onCheck}
+            onEdit={this.onEdit}
           />
         </main>
       </div>

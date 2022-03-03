@@ -7,7 +7,7 @@ class Header extends React.Component {
   render() {
     return (
       <header className={css.header}>
-        Todos ({this.props.count})
+        Todos ({this.props.done} / {this.props.count})
       </header>
     )
   }

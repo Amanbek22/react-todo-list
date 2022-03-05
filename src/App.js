@@ -72,7 +72,11 @@ class App extends Component {
   render() {
     if(this.state.isLoading) {
       return <div className='text-center mt-5'>
-        <img width={"150px"} src='https://www.superiorlawncareusa.com/wp-content/uploads/2020/05/loading-gif-png-5.gif' />
+        <img 
+          width={"150px"} 
+          src='https://www.superiorlawncareusa.com/wp-content/uploads/2020/05/loading-gif-png-5.gif' 
+          alt="Preloader"
+        />
       </div>
     }
     return (

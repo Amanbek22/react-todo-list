@@ -27,14 +27,14 @@ class App extends Component {
 
   componentDidMount() {
     const localData = JSON.parse(localStorage.getItem("todos")) || [];
-    this.setState({todos: localData});
+    this.setState({ todos: localData });
     setTimeout(() => {
       this.setState({ isLoading: false })
     }, 2500)
   }
 
   componentDidUpdate() {
-    localStorage.setItem("todos", JSON.stringify(this.state.todos) )
+    localStorage.setItem("todos", JSON.stringify(this.state.todos))
   }
 
   componentWillUnmount() {
@@ -42,26 +42,26 @@ class App extends Component {
   }
 
   handleCreateTodo(str) {
-    this.setState({ todos: [ ...this.state.todos, {id: Math.random(), title: str} ] })
+    this.setState({ todos: [...this.state.todos, { id: Math.random(), title: str }] })
   }
   onDelete(id) {
     const newTodos = this.state.todos.filter((item) => item.id !== id);
-    this.setState({todos: newTodos})
+    this.setState({ todos: newTodos })
   }
 
   onCheck(id) {
     const newArr = this.state.todos.map((todo) => {
-      if(todo.id === id) {
-        return {...todo, status: !todo.status}
+      if (todo.id === id) {
+        return { ...todo, status: !todo.status }
       }
       return todo;
     })
-    this.setState({todos: newArr})
+    this.setState({ todos: newArr })
   }
-  onEdit(id, newText)  {
+  onEdit(id, newText) {
     const newArr = this.state.todos.map((todo) => {
-      if(todo.id === id) {
-        return {...todo, title: newText}
+      if (todo.id === id) {
+        return { ...todo, title: newText }
       }
       return todo
     });
@@ -70,27 +70,29 @@ class App extends Component {
 
 
   render() {
-    if(this.state.isLoading) {
+    if (this.state.isLoading) {
       return <div className='text-center mt-5'>
-        <img 
-          width={"150px"} 
-          src='https://www.superiorlawncareusa.com/wp-content/uploads/2020/05/loading-gif-png-5.gif' 
+        <img
+          width={"150px"}
+          src='https://www.superiorlawncareusa.com/wp-content/uploads/2020/05/loading-gif-png-5.gif'
           alt="Preloader"
         />
       </div>
     }
     return (
-      <div className="App">
-        <Header count={this.state.todos.length} done={this.state.todos.filter((todo) => todo.status).length} />
-        <main className='main'>
-          <CreateTodo onCreate={this.handleCreateTodo} />
-          <TodoLists 
-            todos={this.state.todos}
-            onDelete={this.onDelete}
-            onCheck={this.onCheck}
-            onEdit={this.onEdit}
-          />
-        </main>
+      <div className='container'>
+        <div className="App">
+          <Header count={this.state.todos.length} done={this.state.todos.filter((todo) => todo.status).length} />
+          <main className='main'>
+            <CreateTodo onCreate={this.handleCreateTodo} />
+            <TodoLists
+              todos={this.state.todos}
+              onDelete={this.onDelete}
+              onCheck={this.onCheck}
+              onEdit={this.onEdit}
+            />
+          </main>
+        </div>
       </div>
     )
   }

@@ -5,9 +5,9 @@ import Todo from '../todo/Todo.jsx';
 class TodoLists extends React.Component {
 
   render() {
-
     const arr = this.props.todos.map( (todo) => {
       return <Todo 
+        key={todo.id}
         id={todo.id}
         text={todo.title}
         status={todo.status}

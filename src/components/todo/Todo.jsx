@@ -10,9 +10,6 @@ class Todo extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    alert(this.state.todoValue)
-  }
 
   handleChange(e) {
     this.setState({todoValue: e.target.value})

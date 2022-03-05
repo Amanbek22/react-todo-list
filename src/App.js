@@ -17,6 +17,7 @@ class App extends Component {
     super(props)
     this.state = {
       todos: [],
+      isLoading: true,
     }
     this.handleCreateTodo = this.handleCreateTodo.bind(this);
     this.onDelete = this.onDelete.bind(this);
@@ -27,6 +28,9 @@ class App extends Component {
   componentDidMount() {
     const localData = JSON.parse(localStorage.getItem("todos")) || [];
     this.setState({todos: localData});
+    setTimeout(() => {
+      this.setState({ isLoading: false })
+    }, 2500)
   }
 
   componentDidUpdate() {
@@ -66,7 +70,11 @@ class App extends Component {
 
 
   render() {
-    console.log(this.state.todos)
+    if(this.state.isLoading) {
+      return <div className='text-center mt-5'>
+        <img width={"150px"} src='https://www.superiorlawncareusa.com/wp-content/uploads/2020/05/loading-gif-png-5.gif' />
+      </div>
+    }
     return (
       <div className="App">
         <Header count={this.state.todos.length} done={this.state.todos.filter((todo) => todo.status).length} />
